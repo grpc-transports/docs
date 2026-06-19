@@ -1,0 +1,43 @@
+site_name: grpc-transports
+site_description: Pure-Go custom gRPC transports — a net.Listener on the server and a grpc.DialOption on the client, carrying gRPC over a WireGuard overlay or an SSH tunnel. No cgo.
+site_url: https://grpc-transports.github.io/docs/
+repo_url: https://github.com/grpc-transports
+repo_name: grpc-transports
+edit_uri: ""
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle: { icon: material/weather-night, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle: { icon: material/weather-sunny, name: Light mode }
+  features: [navigation.sections, navigation.top, content.code.copy, search.suggest]
+
+extra_css: [stylesheets/brand.css]
+extra:
+  version:
+    provider: mike
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - pymdownx.superfences
+  - pymdownx.highlight
+
+nav:
+  - Home: index.md
+  - Components:
+      - Overview: components/index.md
+      - "wireguard — gRPC over a WireGuard overlay": components/wireguard.md
+      - "ssh — gRPC over an SSH tunnel": components/ssh.md
