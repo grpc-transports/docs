@@ -9,6 +9,7 @@ underlying carrier is a one-line change to the rest of your service. No cgo.
 |-----------|-------------------|----------------|
 | [`wireguard`](components/wireguard.md) | a WireGuard overlay (userspace wireguard-go + gVisor netstack, or the Linux kernel module) | Curve25519 peer keys |
 | [`ssh`](components/ssh.md) | an SSH tunnel | Ed25519 host keys + `authorized_keys` / agent keys, with a pluggable `AuthCallback` |
+| [`vsock`](components/vsock.md) | the AF_VSOCK host↔guest family (KVM/QEMU or Apple VZ) | hypervisor-scoped `(context id, port)` addressing |
 
 Both grew out of [weft](https://github.com/openweft/weft)'s need to reach a gRPC
 agent from a controller: `ssh` fits a human-driven CLI client with per-user
@@ -21,6 +22,7 @@ SSH's per-user model is a poor fit.
 |--------|-------------|--------------|
 | [`wireguard`](components/wireguard.md) | `github.com/grpc-transports/wireguard` | gRPC over a WireGuard overlay for inter-VM communication regardless of physical location. Two backends ship side by side: a userspace data path (wireguard-go + gVisor netstack, no privileges, any OS) and a Linux kernel backend (`CAP_NET_ADMIN`, line-rate). |
 | [`ssh`](components/ssh.md) | `github.com/grpc-transports/ssh` | gRPC over a transparent SSH tunnel. Ed25519 host-key auto-generation, SSH agent forwarding for client auth, and a pluggable `AuthCallback` seam for verifiers like OpenPubkey. |
+| [`vsock`](components/vsock.md) | `github.com/grpc-transports/vsock` | Host↔guest gRPC over AF_VSOCK (virtio-vsock), addressed by `(context id, port)`. `Listen` returns a `net.Listener` whose connections report the peer CID; `Dialer.DialContext` plugs into `grpc.WithContextDialer`. Dependency-free pure Go, Linux-only with a non-Linux stub. |
 
 ## How it fits together
 
@@ -40,4 +42,5 @@ already carried over the chosen overlay/tunnel; the client constructor returns a
   distribute keys → [`wireguard`](components/wireguard.md).
 - **Human-driven CLI client** with per-user SSH keys / agent forwarding →
   [`ssh`](components/ssh.md).
-- **VM ↔ VM on the same host** → prefer vsock (neither module is needed).
+- **Host ↔ guest on the same machine** (KVM/QEMU or Apple VZ), no IP stack in the
+  guest → [`vsock`](components/vsock.md).

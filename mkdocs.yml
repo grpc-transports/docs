@@ -1,5 +1,5 @@
 site_name: grpc-transports
-site_description: Pure-Go custom gRPC transports — a net.Listener on the server and a grpc.DialOption on the client, carrying gRPC over a WireGuard overlay or an SSH tunnel. No cgo.
+site_description: Pure-Go custom gRPC transports — a net.Listener on the server and a client dialer, carrying gRPC over a WireGuard overlay, an SSH tunnel, or the AF_VSOCK host↔guest family. No cgo.
 site_url: https://grpc-transports.github.io/docs/
 repo_url: https://github.com/grpc-transports
 repo_name: grpc-transports
@@ -41,3 +41,4 @@ nav:
       - Overview: components/index.md
       - "wireguard — gRPC over a WireGuard overlay": components/wireguard.md
       - "ssh — gRPC over an SSH tunnel": components/ssh.md
+      - "vsock — gRPC over AF_VSOCK": components/vsock.md
