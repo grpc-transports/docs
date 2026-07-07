@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Pure-Go custom gRPC transports — a net.Listener on the server and a grpc.DialOption on the client, carrying gRPC over a WireGuard overlay or an SSH tunnel. No cgo.">
+        <meta name="description" content="Pure-Go custom gRPC transports — a net.Listener on the server and a client dialer, carrying gRPC over a WireGuard overlay, an SSH tunnel, or the AF_VSOCK host↔guest family. No cgo.">
       
       
       
@@ -434,6 +434,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="vsock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    vsock — gRPC over AF_VSOCK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -502,11 +530,18 @@ a <code>net.Listener</code> and a client constructor returning a <code>grpc.Dial
 <td>SSH tunnel</td>
 <td>Transparent SSH-tunnelled gRPC. <code>ListenSSH</code> wraps inbound SSH connections as gRPC-ready <code>net.Conn</code>; <code>DialOption</code> opens gRPC channels over SSH. Ed25519 host keys, agent forwarding, pluggable <code>AuthCallback</code>.</td>
 </tr>
+<tr>
+<td><a href="vsock/"><code>vsock</code></a></td>
+<td><code>github.com/grpc-transports/vsock</code></td>
+<td>AF_VSOCK</td>
+<td>Host↔guest gRPC over the Linux virtio-vsock family (KVM/QEMU or Apple VZ), addressed by <code>(context id, port)</code> with no IP stack in the guest. <code>Listen</code> returns a <code>net.Listener</code> whose connections report the peer CID; <code>Dialer.DialContext</code> matches <code>grpc.WithContextDialer</code>. Dependency-free, Linux-only with a portable non-Linux stub.</td>
+</tr>
 </tbody>
 </table>
-<p>Both modules target <code>go 1.25</code> and depend on <code>google.golang.org/grpc</code> plus
+<p><code>wireguard</code> and <code>ssh</code> depend on <code>google.golang.org/grpc</code> plus
 <code>golang.org/x/crypto</code>; <code>wireguard</code> additionally pulls in <code>wireguard-go</code>, <code>wgctrl</code>,
-<code>netlink</code>, and gVisor's netstack for the userspace data path.</p>
+<code>netlink</code>, and gVisor's netstack for the userspace data path. <code>vsock</code> has <strong>no
+third-party dependencies</strong> — it is pure stdlib.</p>
 
 
 

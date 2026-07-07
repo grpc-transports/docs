@@ -10,13 +10,11 @@
       
       
       
-        <link rel="canonical" href="https://grpc-transports.github.io/docs/0.1/components/ssh/">
+        <link rel="canonical" href="https://grpc-transports.github.io/docs/0.1/components/vsock/">
       
       
-        <link rel="prev" href="../wireguard/">
+        <link rel="prev" href="../ssh/">
       
-      
-        <link rel="next" href="../vsock/">
       
       
         
@@ -27,7 +25,7 @@
     
     
       
-        <title>ssh — gRPC over an SSH tunnel - grpc-transports</title>
+        <title>vsock — gRPC over AF_VSOCK - grpc-transports</title>
       
     
     
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ssh-grpc-over-an-ssh-tunnel" class="md-skip">
+        <a href="#vsock-grpc-over-af_vsock" class="md-skip">
           Skip to content
         </a>
       
@@ -119,7 +117,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ssh — gRPC over an SSH tunnel
+              vsock — gRPC over AF_VSOCK
             
           </span>
         </div>
@@ -400,6 +398,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../ssh/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ssh — gRPC over an SSH tunnel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -419,7 +445,7 @@
   <span class="md-ellipsis">
     
   
-    ssh — gRPC over an SSH tunnel
+    vsock — gRPC over AF_VSOCK
   
 
     
@@ -437,7 +463,7 @@
   <span class="md-ellipsis">
     
   
-    ssh — gRPC over an SSH tunnel
+    vsock — gRPC over AF_VSOCK
   
 
     
@@ -461,6 +487,17 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#reserved-cids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserved CIDs
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#api" class="md-nav__link">
@@ -496,6 +533,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -513,38 +561,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pluggable-verifiers-openpubkey-fido2-sigstore" class="md-nav__link">
+  <a href="#platform-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pluggable verifiers (OpenPubkey, FIDO2, sigstore)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pluggable verifiers (OpenPubkey, FIDO2, sigstore)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openpubkey-sketch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenPubkey sketch
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#used-by" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Used by
+        Platform support
       
     </span>
   </a>
@@ -555,34 +575,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vsock/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    vsock — gRPC over AF_VSOCK
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -622,6 +614,17 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#reserved-cids" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reserved CIDs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#api" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -655,6 +658,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#helpers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Helpers
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -672,38 +686,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#pluggable-verifiers-openpubkey-fido2-sigstore" class="md-nav__link">
+  <a href="#platform-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pluggable verifiers (OpenPubkey, FIDO2, sigstore)
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Pluggable verifiers (OpenPubkey, FIDO2, sigstore)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#openpubkey-sketch" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        OpenPubkey sketch
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#used-by" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Used by
+        Platform support
       
     </span>
   </a>
@@ -727,109 +713,110 @@
 
 
 
-<h1 id="ssh-grpc-over-an-ssh-tunnel">ssh — gRPC over an SSH tunnel</h1>
-<p><code>github.com/grpc-transports/ssh</code> is a transparent SSH tunnel transport layer for
-gRPC. The server wraps inbound SSH connections as <code>net.Conn</code> for a standard
-<code>grpc.Server</code>; the client provides a <code>grpc.DialOption</code> that opens gRPC channels
-over SSH.</p>
-<p>It supports Ed25519 host-key auto-generation and SSH agent forwarding for client
-authentication.</p>
-<div class="highlight"><pre><span></span><code>github.com/grpc-transports/ssh
+<h1 id="vsock-grpc-over-af_vsock">vsock — gRPC over AF_VSOCK</h1>
+<p><code>github.com/grpc-transports/vsock</code> is a pure-Go (CGO=0) transport for gRPC over
+the Linux <code>AF_VSOCK</code> address family, with <strong>no third-party dependencies</strong>.</p>
+<p><code>AF_VSOCK</code> is the host↔guest socket family used by KVM/QEMU virtio-vsock and
+Apple Virtualization (<code>VZVirtioSocketDevice</code>). Both expose the same kernel
+interface to a Linux guest, so one implementation serves either hypervisor. An
+address is a <code>(context id, port)</code> pair: the context id ("CID") names a VM, the
+port names a service inside it — no IP stack is needed in the guest.</p>
+<div class="highlight"><pre><span></span><code>github.com/grpc-transports/vsock
 </code></pre></div>
-<p>For inter-VM gRPC where SSH's per-user auth model is a poor fit, see the sibling
-<a href="../wireguard/"><code>wireguard</code></a>.</p>
+<p>The server's <code>Listen</code> returns connections you hand straight to
+<code>grpc.Server.Serve</code>, and <code>Dialer.DialContext</code> has the signature
+<code>grpc.WithContextDialer</code> expects — but nothing here depends on gRPC; the surface
+is plain <code>net.Conn</code> / <code>net.Listener</code>.</p>
+<h2 id="reserved-cids">Reserved CIDs</h2>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CIDAny</code></td>
+<td><code>0xffffffff</code></td>
+<td><code>VMADDR_CID_ANY</code> — listener wildcard</td>
+</tr>
+<tr>
+<td><code>CIDHypervisor</code></td>
+<td><code>0</code></td>
+<td><code>VMADDR_CID_HYPERVISOR</code></td>
+</tr>
+<tr>
+<td><code>CIDLocal</code></td>
+<td><code>1</code></td>
+<td><code>VMADDR_CID_LOCAL</code> — loopback</td>
+</tr>
+<tr>
+<td><code>CIDHost</code></td>
+<td><code>2</code></td>
+<td><code>VMADDR_CID_HOST</code> — a guest dials this to reach its host</td>
+</tr>
+</tbody>
+</table>
+<p>Real guest CIDs are <code>3</code> or higher.</p>
 <h2 id="api">API</h2>
 <h3 id="server">Server</h3>
-<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">ServerConfig</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="nx">HostKeyPath</span><span class="w">        </span><span class="kt">string</span><span class="w">      </span><span class="c1">// path to Ed25519 host key (auto-generated if missing)</span>
-<span class="w">    </span><span class="nx">AuthorizedKeysPath</span><span class="w"> </span><span class="kt">string</span><span class="w">      </span><span class="c1">// path to authorized_keys file</span>
-<span class="w">    </span><span class="nx">Logger</span><span class="w">             </span><span class="o">*</span><span class="nx">log</span><span class="p">.</span><span class="nx">Logger</span>
-<span class="p">}</span>
-
-<span class="c1">// ListenSSH starts an SSH server and returns a net.Listener of gRPC-ready</span>
-<span class="c1">// connections; pass directly to grpc.Server.Serve.</span>
-<span class="kd">func</span><span class="w"> </span><span class="nx">ListenSSH</span><span class="p">(</span><span class="nx">addr</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">cfg</span><span class="w"> </span><span class="nx">ServerConfig</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Listen binds an AF_VSOCK listener on (CIDAny, port) and returns a</span>
+<span class="c1">// net.Listener whose connections are ready for grpc.Server.Serve.</span>
+<span class="c1">// port 0 lets the kernel choose an ephemeral port.</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Listen</span><span class="p">(</span><span class="nx">port</span><span class="w"> </span><span class="kt">uint32</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Listener</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
 </code></pre></div>
+<p>Accepted connections report the peer's <code>Addr</code> from <code>RemoteAddr()</code>, so gRPC
+handlers can read the caller's CID through <code>peer.FromContext</code> — enough to reject
+calls that did not originate from a guest VM.</p>
 <h3 id="client">Client</h3>
-<div class="highlight"><pre><span></span><code><span class="c1">// DialOption returns a grpc.DialOption that tunnels all gRPC traffic over SSH.</span>
-<span class="c1">// keyPath: path to private key, path to .pub file (selects matching agent key),</span>
-<span class="c1">//          or &quot;&quot; (all keys offered by the SSH agent).</span>
-<span class="kd">func</span><span class="w"> </span><span class="nx">DialOption</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">,</span><span class="w"> </span><span class="nx">knownHostsPath</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="c1">// Dial opens an AF_VSOCK stream connection to (cid, port).</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Dial</span><span class="p">(</span><span class="nx">cid</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="w"> </span><span class="kt">uint32</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+
+<span class="c1">// Dialer adds an optional connect-retry policy; the zero Dialer does one attempt.</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Dialer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Retries</span><span class="w"> </span><span class="kt">int</span><span class="w">           </span><span class="c1">// additional attempts after the first</span>
+<span class="w">    </span><span class="nx">Delay</span><span class="w">   </span><span class="nx">time</span><span class="p">.</span><span class="nx">Duration</span><span class="w"> </span><span class="c1">// slept between attempts</span>
+<span class="p">}</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="nx">Dialer</span><span class="p">)</span><span class="w"> </span><span class="nx">Dial</span><span class="p">(</span><span class="nx">cid</span><span class="p">,</span><span class="w"> </span><span class="nx">port</span><span class="w"> </span><span class="kt">uint32</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="nx">Dialer</span><span class="p">)</span><span class="w"> </span><span class="nx">DialContext</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">addr</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">net</span><span class="p">.</span><span class="nx">Conn</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="c1">// addr = &quot;&lt;cid&gt;:&lt;port&gt;&quot;</span>
+</code></pre></div>
+<h3 id="helpers">Helpers</h3>
+<div class="highlight"><pre><span></span><code><span class="kd">func</span><span class="w"> </span><span class="nx">LocalCID</span><span class="p">()</span><span class="w"> </span><span class="kt">uint32</span><span class="w">                                  </span><span class="c1">// this context&#39;s own guest CID (0 if unknown)</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">Supported</span><span class="p">()</span><span class="w"> </span><span class="kt">bool</span><span class="w">                                   </span><span class="c1">// does the running kernel expose AF_VSOCK?</span>
+<span class="kd">func</span><span class="w"> </span><span class="nx">AllocateCID</span><span class="p">(</span><span class="nx">namespace</span><span class="p">,</span><span class="w"> </span><span class="nx">identifier</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="kt">uint32</span><span class="w">   </span><span class="c1">// deterministic non-reserved CID</span>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
-<p><strong>Server side (e.g. <code>weft agent</code>):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">&quot;unix:&quot;</span><span class="o">+</span><span class="nx">socketPath</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;~/.weft/agent_host_key&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">AuthorizedKeysPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.weft/authorized_keys&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">Logger</span><span class="p">:</span><span class="w">             </span><span class="nx">logger</span><span class="p">,</span>
-<span class="p">})</span>
+<p><strong>Host side (agent) — listen for guests:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">vsock</span><span class="p">.</span><span class="nx">Listen</span><span class="p">(</span><span class="mi">5555</span><span class="p">)</span>
+<span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">log</span><span class="p">.</span><span class="nx">Fatal</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="p">}</span>
 <span class="nx">grpcServer</span><span class="p">.</span><span class="nx">Serve</span><span class="p">(</span><span class="nx">lis</span><span class="p">)</span>
 </code></pre></div>
-<p><strong>Client side (e.g. <code>weft</code> CLI):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">(</span><span class="s">&quot;unix:&quot;</span><span class="o">+</span><span class="nx">sshSocket</span><span class="p">,</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&quot;passthrough:///target&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opt</span><span class="p">)</span>
-</code></pre></div>
-<h2 id="pluggable-verifiers-openpubkey-fido2-sigstore">Pluggable verifiers (OpenPubkey, FIDO2, sigstore)</h2>
-<p><code>ServerConfig.AuthCallback</code> is a hook called <strong>before</strong> the <code>authorized_keys</code>
-file check. It receives the client's public key and returns either a
-<code>*ssh.Permissions</code> (authorised) or an error (fall through to the file). This is
-the seam for verifiers that don't rely on long-lived static public keys.</p>
-<p>A returning-error callback falls back to <code>AuthorizedKeysPath</code>, so an operator
-misconfiguring the verifier can't lock themselves out if they kept a breakglass
-key in the file.</p>
-<h3 id="openpubkey-sketch">OpenPubkey sketch</h3>
-<p><a href="https://github.com/openpubkey/openpubkey">OpenPubkey</a> replaces the
-"pre-distribute SSH public keys" model with "verify an OIDC ID-token signed by a
-trusted IdP at connect time". Useful for ephemeral microVM workloads where
-there's no human to distribute keys to.</p>
-<div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;context&quot;</span>
-
-<span class="w">    </span><span class="nx">sshtransport</span><span class="w"> </span><span class="s">&quot;github.com/grpc-transports/ssh&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/openpubkey/openpubkey/verifier&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/openpubkey/openpubkey/providers&quot;</span>
-<span class="w">    </span><span class="s">&quot;golang.org/x/crypto/ssh&quot;</span>
+<p><strong>Guest side — dial the host, with a short boot-race retry:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">WithContextDialer</span><span class="p">(</span>
+<span class="w">    </span><span class="p">(</span><span class="nx">vsock</span><span class="p">.</span><span class="nx">Dialer</span><span class="p">{</span><span class="nx">Retries</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="nx">Delay</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">}).</span><span class="nx">DialContext</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="kd">func</span><span class="w"> </span><span class="nx">openpubkeyCallback</span><span class="p">(</span><span class="nx">v</span><span class="w"> </span><span class="o">*</span><span class="nx">verifier</span><span class="p">.</span><span class="nx">Verifier</span><span class="p">)</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ConnMetadata</span><span class="p">,</span><span class="w"> </span><span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">conn</span><span class="w"> </span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ConnMetadata</span><span class="p">,</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<span class="w">        </span><span class="c1">// Convention: the client sends the PK Token base64-encoded as the</span>
-<span class="w">        </span><span class="c1">// SSH key comment field. Other transports (cert extension, custom</span>
-<span class="w">        </span><span class="c1">// SSH request) work too — pick whichever your client supports.</span>
-<span class="w">        </span><span class="nx">pkt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">extractPKTokenFromKey</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">v</span><span class="p">.</span><span class="nx">VerifyPKToken</span><span class="p">(</span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">(),</span><span class="w"> </span><span class="nx">pkt</span><span class="p">);</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
-<span class="w">        </span><span class="p">}</span>
-<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">{</span>
-<span class="w">            </span><span class="nx">Extensions</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
-<span class="w">                </span><span class="s">&quot;auth&quot;</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;openpubkey&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="s">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Issuer</span><span class="p">(),</span>
-<span class="w">                </span><span class="s">&quot;sub&quot;</span><span class="p">:</span><span class="w">    </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Subject</span><span class="p">(),</span>
-<span class="w">            </span><span class="p">},</span>
-<span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span>
-<span class="w">    </span><span class="p">}</span>
-<span class="p">}</span>
-
-<span class="c1">// Server wiring:</span>
-<span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">verifier</span><span class="p">.</span><span class="nx">New</span><span class="p">([]</span><span class="nx">providers</span><span class="p">.</span><span class="nx">OpenIdProvider</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">providers</span><span class="p">.</span><span class="nx">NewGoogleOp</span><span class="p">(),</span><span class="w">     </span><span class="c1">// or your enterprise IdP</span>
-<span class="p">})</span>
-<span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">&quot;unix:/tmp/agent.sock&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;/etc/weft/host_key&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">AuthCallback</span><span class="p">:</span><span class="w"> </span><span class="nx">openpubkeyCallback</span><span class="p">(</span><span class="nx">v</span><span class="p">),</span>
-<span class="w">    </span><span class="c1">// AuthorizedKeysPath stays optional — when set, breakglass keys still work.</span>
-<span class="p">})</span>
+<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">NewClient</span><span class="p">(</span>
+<span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Sprintf</span><span class="p">(</span><span class="s">&quot;%d:%d&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">vsock</span><span class="p">.</span><span class="nx">CIDHost</span><span class="p">,</span><span class="w"> </span><span class="mi">5555</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">opt</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">WithTransportCredentials</span><span class="p">(</span><span class="nx">insecure</span><span class="p">.</span><span class="nx">NewCredentials</span><span class="p">()),</span>
+<span class="p">)</span>
 </code></pre></div>
-<h2 id="used-by">Used by</h2>
-<ul>
-<li><a href="https://github.com/openweft/weft"><code>openweft/weft</code></a> — SSH-secured gRPC listener.</li>
-<li><a href="https://github.com/openweft/weft-client"><code>openweft/weft-client</code></a> — SSH-tunnelled gRPC client.</li>
-<li><a href="https://github.com/openweft/weft-webui"><code>openweft/weft-webui</code></a> — SSH-tunnelled gRPC client.</li>
-<li><a href="https://github.com/openweft/terraform-provider-weft"><code>openweft/terraform-provider-weft</code></a> — provider gRPC transport.</li>
-</ul>
+<h2 id="platform-support">Platform support</h2>
+<p>The transport is <strong>Linux-only</strong>. On every other GOOS the package still builds
+and <code>go vet</code>s: <code>Dial</code>, <code>Listen</code>, <code>LocalCID</code> and <code>Supported</code> are present but
+return <code>ErrUnsupported</code> (or a zero value), so cross-platform callers compile
+without a build-tag fork of their own. The pure CID, address, and <code>sockaddr_vm</code>
+logic runs everywhere.</p>
+<p>CI runs the suite on all six 64-bit Go arches — amd64, arm64, riscv64, loong64,
+ppc64le, and <strong>big-endian s390x</strong> (a genuine endianness check of the
+native-order <code>sockaddr_vm</code> marshalling) — behind a hard <strong>100%
+statement-coverage gate</strong>, error branches included. No vsock device is needed:
+the syscall layer is reached through package seams the tests swap for in-memory
+fakes.</p>
 
 
 

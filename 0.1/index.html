@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Pure-Go custom gRPC transports — a net.Listener on the server and a grpc.DialOption on the client, carrying gRPC over a WireGuard overlay or an SSH tunnel. No cgo.">
+        <meta name="description" content="Pure-Go custom gRPC transports — a net.Listener on the server and a client dialer, carrying gRPC over a WireGuard overlay, an SSH tunnel, or the AF_VSOCK host↔guest family. No cgo.">
       
       
       
@@ -500,6 +500,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="components/vsock/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    vsock — gRPC over AF_VSOCK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -607,6 +635,11 @@ underlying carrier is a one-line change to the rest of your service. No cgo.</p>
 <td>an SSH tunnel</td>
 <td>Ed25519 host keys + <code>authorized_keys</code> / agent keys, with a pluggable <code>AuthCallback</code></td>
 </tr>
+<tr>
+<td><a href="components/vsock/"><code>vsock</code></a></td>
+<td>the AF_VSOCK host↔guest family (KVM/QEMU or Apple VZ)</td>
+<td>hypervisor-scoped <code>(context id, port)</code> addressing</td>
+</tr>
 </tbody>
 </table>
 <p>Both grew out of <a href="https://github.com/openweft/weft">weft</a>'s need to reach a gRPC
@@ -633,6 +666,11 @@ SSH's per-user model is a poor fit.</p>
 <td><code>github.com/grpc-transports/ssh</code></td>
 <td>gRPC over a transparent SSH tunnel. Ed25519 host-key auto-generation, SSH agent forwarding for client auth, and a pluggable <code>AuthCallback</code> seam for verifiers like OpenPubkey.</td>
 </tr>
+<tr>
+<td><a href="components/vsock/"><code>vsock</code></a></td>
+<td><code>github.com/grpc-transports/vsock</code></td>
+<td>Host↔guest gRPC over AF_VSOCK (virtio-vsock), addressed by <code>(context id, port)</code>. <code>Listen</code> returns a <code>net.Listener</code> whose connections report the peer CID; <code>Dialer.DialContext</code> plugs into <code>grpc.WithContextDialer</code>. Dependency-free pure Go, Linux-only with a non-Linux stub.</td>
+</tr>
 </tbody>
 </table>
 <h2 id="how-it-fits-together">How it fits together</h2>
@@ -649,7 +687,8 @@ already carried over the chosen overlay/tunnel; the client constructor returns a
   distribute keys → <a href="components/wireguard/"><code>wireguard</code></a>.</li>
 <li><strong>Human-driven CLI client</strong> with per-user SSH keys / agent forwarding →
   <a href="components/ssh/"><code>ssh</code></a>.</li>
-<li><strong>VM ↔ VM on the same host</strong> → prefer vsock (neither module is needed).</li>
+<li><strong>Host ↔ guest on the same machine</strong> (KVM/QEMU or Apple VZ), no IP stack in the
+  guest → <a href="components/vsock/"><code>vsock</code></a>.</li>
 </ul>
 
 
