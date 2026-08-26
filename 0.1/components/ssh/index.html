@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -753,21 +753,21 @@ authentication.</p>
 <h3 id="client">Client</h3>
 <div class="highlight"><pre><span></span><code><span class="c1">// DialOption returns a grpc.DialOption that tunnels all gRPC traffic over SSH.</span>
 <span class="c1">// keyPath: path to private key, path to .pub file (selects matching agent key),</span>
-<span class="c1">//          or &quot;&quot; (all keys offered by the SSH agent).</span>
+<span class="c1">//          or "" (all keys offered by the SSH agent).</span>
 <span class="kd">func</span><span class="w"> </span><span class="nx">DialOption</span><span class="p">(</span><span class="nx">addr</span><span class="p">,</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">,</span><span class="w"> </span><span class="nx">knownHostsPath</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">grpc</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
 <p><strong>Server side (e.g. <code>weft agent</code>):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">&quot;unix:&quot;</span><span class="o">+</span><span class="nx">socketPath</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">        </span><span class="s">&quot;~/.weft/agent_host_key&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">AuthorizedKeysPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.weft/authorized_keys&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">"unix:"</span><span class="o">+</span><span class="nx">socketPath</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">        </span><span class="s">"~/.weft/agent_host_key"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">AuthorizedKeysPath</span><span class="p">:</span><span class="w"> </span><span class="s">"~/.weft/authorized_keys"</span><span class="p">,</span>
 <span class="w">    </span><span class="nx">Logger</span><span class="p">:</span><span class="w">             </span><span class="nx">logger</span><span class="p">,</span>
 <span class="p">})</span>
 <span class="nx">grpcServer</span><span class="p">.</span><span class="nx">Serve</span><span class="p">(</span><span class="nx">lis</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Client side (e.g. <code>weft</code> CLI):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">(</span><span class="s">&quot;unix:&quot;</span><span class="o">+</span><span class="nx">sshSocket</span><span class="p">,</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;&quot;</span><span class="p">)</span>
-<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&quot;passthrough:///target&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opt</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">(</span><span class="s">"unix:"</span><span class="o">+</span><span class="nx">sshSocket</span><span class="p">,</span><span class="w"> </span><span class="nx">keyPath</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">)</span>
+<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">"passthrough:///target"</span><span class="p">,</span><span class="w"> </span><span class="nx">opt</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="pluggable-verifiers-openpubkey-fido2-sigstore">Pluggable verifiers (OpenPubkey, FIDO2, sigstore)</h2>
 <p><code>ServerConfig.AuthCallback</code> is a hook called <strong>before</strong> the <code>authorized_keys</code>
@@ -783,12 +783,12 @@ key in the file.</p>
 trusted IdP at connect time". Useful for ephemeral microVM workloads where
 there's no human to distribute keys to.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="s">&quot;context&quot;</span>
+<span class="w">    </span><span class="s">"context"</span>
 
-<span class="w">    </span><span class="nx">sshtransport</span><span class="w"> </span><span class="s">&quot;github.com/grpc-transports/ssh&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/openpubkey/openpubkey/verifier&quot;</span>
-<span class="w">    </span><span class="s">&quot;github.com/openpubkey/openpubkey/providers&quot;</span>
-<span class="w">    </span><span class="s">&quot;golang.org/x/crypto/ssh&quot;</span>
+<span class="w">    </span><span class="nx">sshtransport</span><span class="w"> </span><span class="s">"github.com/grpc-transports/ssh"</span>
+<span class="w">    </span><span class="s">"github.com/openpubkey/openpubkey/verifier"</span>
+<span class="w">    </span><span class="s">"github.com/openpubkey/openpubkey/providers"</span>
+<span class="w">    </span><span class="s">"golang.org/x/crypto/ssh"</span>
 <span class="p">)</span>
 
 <span class="kd">func</span><span class="w"> </span><span class="nx">openpubkeyCallback</span><span class="p">(</span><span class="nx">v</span><span class="w"> </span><span class="o">*</span><span class="nx">verifier</span><span class="p">.</span><span class="nx">Verifier</span><span class="p">)</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">ConnMetadata</span><span class="p">,</span><span class="w"> </span><span class="nx">ssh</span><span class="p">.</span><span class="nx">PublicKey</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
@@ -804,10 +804,10 @@ there's no human to distribute keys to.</p>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span>
 <span class="w">        </span><span class="p">}</span>
 <span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">ssh</span><span class="p">.</span><span class="nx">Permissions</span><span class="p">{</span>
-<span class="w">            </span><span class="nx">Extensions</span><span class="p">:</span><span class="w"> </span><span class="kd">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
-<span class="w">                </span><span class="s">&quot;auth&quot;</span><span class="p">:</span><span class="w">   </span><span class="s">&quot;openpubkey&quot;</span><span class="p">,</span>
-<span class="w">                </span><span class="s">&quot;issuer&quot;</span><span class="p">:</span><span class="w"> </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Issuer</span><span class="p">(),</span>
-<span class="w">                </span><span class="s">&quot;sub&quot;</span><span class="p">:</span><span class="w">    </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Subject</span><span class="p">(),</span>
+<span class="w">            </span><span class="nx">Extensions</span><span class="p">:</span><span class="w"> </span><span class="kt">map</span><span class="p">[</span><span class="kt">string</span><span class="p">]</span><span class="kt">string</span><span class="p">{</span>
+<span class="w">                </span><span class="s">"auth"</span><span class="p">:</span><span class="w">   </span><span class="s">"openpubkey"</span><span class="p">,</span>
+<span class="w">                </span><span class="s">"issuer"</span><span class="p">:</span><span class="w"> </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Issuer</span><span class="p">(),</span>
+<span class="w">                </span><span class="s">"sub"</span><span class="p">:</span><span class="w">    </span><span class="nx">pkt</span><span class="p">.</span><span class="nx">Op</span><span class="p">.</span><span class="nx">Subject</span><span class="p">(),</span>
 <span class="w">            </span><span class="p">},</span>
 <span class="w">        </span><span class="p">},</span><span class="w"> </span><span class="kc">nil</span>
 <span class="w">    </span><span class="p">}</span>
@@ -817,8 +817,8 @@ there's no human to distribute keys to.</p>
 <span class="nx">v</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">verifier</span><span class="p">.</span><span class="nx">New</span><span class="p">([]</span><span class="nx">providers</span><span class="p">.</span><span class="nx">OpenIdProvider</span><span class="p">{</span>
 <span class="w">    </span><span class="nx">providers</span><span class="p">.</span><span class="nx">NewGoogleOp</span><span class="p">(),</span><span class="w">     </span><span class="c1">// or your enterprise IdP</span>
 <span class="p">})</span>
-<span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">&quot;unix:/tmp/agent.sock&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;/etc/weft/host_key&quot;</span><span class="p">,</span>
+<span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ListenSSH</span><span class="p">(</span><span class="s">"unix:/tmp/agent.sock"</span><span class="p">,</span><span class="w"> </span><span class="nx">sshtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">HostKeyPath</span><span class="p">:</span><span class="w">  </span><span class="s">"/etc/weft/host_key"</span><span class="p">,</span>
 <span class="w">    </span><span class="nx">AuthCallback</span><span class="p">:</span><span class="w"> </span><span class="nx">openpubkeyCallback</span><span class="p">(</span><span class="nx">v</span><span class="p">),</span>
 <span class="w">    </span><span class="c1">// AuthorizedKeysPath stays optional — when set, breakglass keys still work.</span>
 <span class="p">})</span>
@@ -888,7 +888,7 @@ there's no human to distribute keys to.</p>
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

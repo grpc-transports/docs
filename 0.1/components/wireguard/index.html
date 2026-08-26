@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -914,7 +914,7 @@ CLI client, prefer <a href="../ssh/"><code>ssh</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">Peer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">PublicKey</span><span class="w">           </span><span class="kt">string</span><span class="w">         </span><span class="c1">// base64 (32 bytes)</span>
 <span class="w">    </span><span class="nx">AllowedIPs</span><span class="w">          </span><span class="p">[]</span><span class="nx">netip</span><span class="p">.</span><span class="nx">Prefix</span><span class="w"> </span><span class="c1">// overlay prefixes reachable via this peer</span>
-<span class="w">    </span><span class="nx">Endpoint</span><span class="w">            </span><span class="kt">string</span><span class="w">         </span><span class="c1">// &quot;host:port&quot; underlay (required on client)</span>
+<span class="w">    </span><span class="nx">Endpoint</span><span class="w">            </span><span class="kt">string</span><span class="w">         </span><span class="c1">// "host:port" underlay (required on client)</span>
 <span class="w">    </span><span class="nx">PersistentKeepalive</span><span class="w"> </span><span class="kt">uint16</span><span class="w">         </span><span class="c1">// seconds; 0 = disabled</span>
 <span class="p">}</span>
 </code></pre></div>
@@ -924,35 +924,35 @@ CLI client, prefer <a href="../ssh/"><code>ssh</code></a>.</p>
 </code></pre></div>
 <h2 id="usage">Usage</h2>
 <p><strong>Server (VM A, virtual IP <code>10.0.0.1</code>, UDP port 51820):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ListenWireGuard</span><span class="p">(</span><span class="s">&quot;10.0.0.1:50051&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.weft/wg_priv&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">&quot;10.0.0.1&quot;</span><span class="p">),</span>
+<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ListenWireGuard</span><span class="p">(</span><span class="s">"10.0.0.1:50051"</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">"~/.weft/wg_priv"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">"10.0.0.1"</span><span class="p">),</span>
 <span class="w">    </span><span class="nx">ListenPort</span><span class="p">:</span><span class="w">     </span><span class="mi">51820</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">PeersPath</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;~/.weft/wg_peers&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PeersPath</span><span class="p">:</span><span class="w">      </span><span class="s">"~/.weft/wg_peers"</span><span class="p">,</span>
 <span class="p">})</span>
 <span class="nx">grpcServer</span><span class="p">.</span><span class="nx">Serve</span><span class="p">(</span><span class="nx">lis</span><span class="p">)</span>
 </code></pre></div>
 <p><strong>Client (VM B, virtual IP <code>10.0.0.2</code>):</strong></p>
-<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">(</span><span class="s">&quot;10.0.0.1:50051&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ClientConfig</span><span class="p">{</span>
-<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;~/.weft/wg_priv&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">&quot;10.0.0.2&quot;</span><span class="p">),</span>
+<div class="highlight"><pre><span></span><code><span class="nx">opt</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">DialOption</span><span class="p">(</span><span class="s">"10.0.0.1:50051"</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ClientConfig</span><span class="p">{</span>
+<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">"~/.weft/wg_priv"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">"10.0.0.2"</span><span class="p">),</span>
 <span class="w">    </span><span class="nx">Peer</span><span class="p">:</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">Peer</span><span class="p">{</span>
-<span class="w">        </span><span class="nx">PublicKey</span><span class="p">:</span><span class="w">           </span><span class="s">&quot;&lt;server-pubkey-base64&gt;&quot;</span><span class="p">,</span>
-<span class="w">        </span><span class="nx">AllowedIPs</span><span class="p">:</span><span class="w">          </span><span class="p">[]</span><span class="nx">netip</span><span class="p">.</span><span class="nx">Prefix</span><span class="p">{</span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParsePrefix</span><span class="p">(</span><span class="s">&quot;10.0.0.0/24&quot;</span><span class="p">)},</span>
-<span class="w">        </span><span class="nx">Endpoint</span><span class="p">:</span><span class="w">            </span><span class="s">&quot;vm-a.dc1.example:51820&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">PublicKey</span><span class="p">:</span><span class="w">           </span><span class="s">"&lt;server-pubkey-base64&gt;"</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">AllowedIPs</span><span class="p">:</span><span class="w">          </span><span class="p">[]</span><span class="nx">netip</span><span class="p">.</span><span class="nx">Prefix</span><span class="p">{</span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParsePrefix</span><span class="p">(</span><span class="s">"10.0.0.0/24"</span><span class="p">)},</span>
+<span class="w">        </span><span class="nx">Endpoint</span><span class="p">:</span><span class="w">            </span><span class="s">"vm-a.dc1.example:51820"</span><span class="p">,</span>
 <span class="w">        </span><span class="nx">PersistentKeepalive</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span>
 <span class="w">    </span><span class="p">},</span>
 <span class="p">})</span>
-<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">&quot;passthrough:///target&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">opt</span><span class="p">)</span>
+<span class="nx">conn</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">grpc</span><span class="p">.</span><span class="nx">Dial</span><span class="p">(</span><span class="s">"passthrough:///target"</span><span class="p">,</span><span class="w"> </span><span class="nx">opt</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="kernel-backend">Kernel backend</h2>
-<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ListenWireGuard</span><span class="p">(</span><span class="s">&quot;10.0.0.1:50051&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
+<div class="highlight"><pre><span></span><code><span class="nx">lis</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ListenWireGuard</span><span class="p">(</span><span class="s">"10.0.0.1:50051"</span><span class="p">,</span><span class="w"> </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">ServerConfig</span><span class="p">{</span>
 <span class="w">    </span><span class="nx">Backend</span><span class="p">:</span><span class="w">        </span><span class="nx">wgtransport</span><span class="p">.</span><span class="nx">BackendKernel</span><span class="p">,</span><span class="w">    </span><span class="c1">// ← kernel WireGuard</span>
-<span class="w">    </span><span class="nx">InterfaceName</span><span class="p">:</span><span class="w">  </span><span class="s">&quot;wg-svc&quot;</span><span class="p">,</span><span class="w">                     </span><span class="c1">// optional, auto if empty</span>
-<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/etc/weft/wg_priv&quot;</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">&quot;10.0.0.1&quot;</span><span class="p">),</span>
+<span class="w">    </span><span class="nx">InterfaceName</span><span class="p">:</span><span class="w">  </span><span class="s">"wg-svc"</span><span class="p">,</span><span class="w">                     </span><span class="c1">// optional, auto if empty</span>
+<span class="w">    </span><span class="nx">PrivateKeyPath</span><span class="p">:</span><span class="w"> </span><span class="s">"/etc/weft/wg_priv"</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">LocalIP</span><span class="p">:</span><span class="w">        </span><span class="nx">netip</span><span class="p">.</span><span class="nx">MustParseAddr</span><span class="p">(</span><span class="s">"10.0.0.1"</span><span class="p">),</span>
 <span class="w">    </span><span class="nx">ListenPort</span><span class="p">:</span><span class="w">     </span><span class="mi">51820</span><span class="p">,</span>
-<span class="w">    </span><span class="nx">PeersPath</span><span class="p">:</span><span class="w">      </span><span class="s">&quot;/etc/weft/wg_peers&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nx">PeersPath</span><span class="p">:</span><span class="w">      </span><span class="s">"/etc/weft/wg_peers"</span><span class="p">,</span>
 <span class="p">})</span>
 </code></pre></div>
 <p>The bring-up runs five netlink + wgctrl steps. <strong>No shell, no <code>iproute2</code>, no
@@ -1080,7 +1080,7 @@ netlink syscalls for link/addr/route) and
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.top", "content.code.copy", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>
